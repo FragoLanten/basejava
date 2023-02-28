@@ -23,18 +23,17 @@ public class ArrayStorage {
 
     Resume get(String uuid) {
         for (Resume resume : storage) {
-            if (resume!=null) {
+            if (resume != null) {
                 if ((resume.uuid).equals(uuid)) {
                     return resume;
                 }
-            }
-            else break;
+            } else break;
         }
         return null;
     }
 
     void delete(String uuid) {
-        int recalculateCellsFromHere = 0;
+        int recalculateCellsFromHere = -1;
         for (int i = 0; i < storage.length; i++) {
             if ((storage[i].uuid).equals(uuid)) {
                 storage[i] = null;
@@ -42,7 +41,7 @@ public class ArrayStorage {
                 break;
             }
         }
-        if (recalculateCellsFromHere != 0) {
+        if (recalculateCellsFromHere != -1) {
             for (int i = recalculateCellsFromHere; i < storage.length; i++) {
                 if (i == storage.length - 1) {
                     return;
@@ -68,7 +67,7 @@ public class ArrayStorage {
         }
         Resume[] notNullStorage = new Resume[sizeOfNotNullStorage];
         System.arraycopy(storage, 0, notNullStorage, 0, sizeOfNotNullStorage);
-            return notNullStorage;
+        return notNullStorage;
     }
 
     int size() {
