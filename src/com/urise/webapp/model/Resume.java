@@ -1,3 +1,5 @@
+package com.urise.webapp.model;
+
 /**
  * Initial resume class
  */
@@ -14,5 +16,13 @@ public class Resume implements Comparable<Resume> {
     @Override
     public int compareTo(Resume resume) {
         return uuid.compareTo(resume.uuid);
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }
