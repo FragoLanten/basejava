@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
@@ -12,29 +14,38 @@ public class ArrayStorage {
         size = 0;
     }
 
+    void update(Resume resume) {
+        int indexOfResume = findIndexOfResume(resume);
+        if (indexOfResume >= 0) {
+            storage[indexOfResume] = resume;
+        } else {
+            System.out.println("Resume is not present in storage");
+        }
+    }
+
     void save(Resume r) {
-        storage[size] = r;
-        size++;
+        if (findIndexOfResume(r)<0&&size<10000) {
+            storage[size] = r;
+            size++;
+        }
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-                return storage[i];
-            }
-        }
-        return null;
+        return findResumeByUuid(uuid);
     }
 
     void delete(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-                storage[i] = storage[size - 1];
-                storage[size - 1] = null;
-                size--;
-                break;
+        if (findResumeByUuid(uuid)!=null) {
+            for (int i = 0; i < size; i++) {
+                if (storage[i].uuid.equals(uuid)) {
+                    storage[i] = storage[size - 1];
+                    storage[size - 1] = null;
+                    size--;
+                    break;
+                }
             }
         }
+        else System.out.println("Resume with " + uuid + " is not present in storage");
     }
 
     /**
@@ -48,5 +59,19 @@ public class ArrayStorage {
 
     int size() {
         return size;
+    }
+
+    int findIndexOfResume(Resume resume) {
+        Arrays.sort(storage, 0, size);
+        return Arrays.binarySearch(storage, 0, size, resume);
+    }
+
+    Resume findResumeByUuid(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].uuid.equals(uuid)) {
+                return storage[i];
+            }
+        }
+        return null;
     }
 }
