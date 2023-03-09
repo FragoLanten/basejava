@@ -79,9 +79,11 @@ public class ArrayStorage {
     }
 
     int getIndex(Resume resume) {
-        Arrays.sort(storage, 0, size);
-        if (Arrays.binarySearch(storage, 0, size, resume) >= 0) {
-            return Arrays.binarySearch(storage, 0, size, resume);
-        } else return -1;
+        for (int i = 0; i < size; i++) {
+            if (storage[i] == resume) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
