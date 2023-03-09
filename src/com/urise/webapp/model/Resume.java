@@ -1,9 +1,11 @@
 package com.urise.webapp.model;
 
+import java.util.Objects;
+
 /**
  * Initial resume class
  */
-public class Resume implements Comparable<Resume> {
+public class Resume {
 
     // Unique identifier
     String uuid;
@@ -13,16 +15,31 @@ public class Resume implements Comparable<Resume> {
         return uuid;
     }
 
-    @Override
-    public int compareTo(Resume resume) {
-        return uuid.compareTo(resume.uuid);
-    }
-
     public String getUuid() {
         return uuid;
     }
 
     public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Resume resume = (Resume) o;
+        return uuid.equals(resume.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return uuid.hashCode();
+    }
+
+    public Resume() {
+    }
+
+    public Resume(String uuid) {
         this.uuid = uuid;
     }
 }
