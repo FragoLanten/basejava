@@ -1,7 +1,0 @@
-<application>
-  <component name="GithubAccounts">
-    <account name="FragoLanten" id="59cbe503-568f-48e4-9920-71a16cc363f1">
-      <server host="github.com" />
-    </account>
-  </component>
-</application>
