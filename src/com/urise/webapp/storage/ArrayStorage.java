@@ -9,6 +9,7 @@ import java.util.Arrays;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
+    @Override
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index >= 0) {
@@ -17,6 +18,8 @@ public class ArrayStorage extends AbstractArrayStorage {
             System.out.println("Resume with " + resume.getUuid() + " is not present in storage");
         }
     }
+
+    @Override
     public void save(Resume r) {
         if (size >= STORAGE_LIMIT) {
             System.out.println("Excess the size of storage");
@@ -28,6 +31,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
+    @Override
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index == -1) {
@@ -39,6 +43,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
+    @Override
     protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
