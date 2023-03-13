@@ -5,16 +5,16 @@ import com.urise.webapp.model.Resume;
 import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
+
     @Override
-    public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index >= 0) {
-            storage[index] = resume;
-        } else {
-            System.out.println("Resume with " + resume.getUuid() + " is not present in storage");
-        }
-        //Хотел сюда поставить метод Arrays.sort, но по тз запрещено использовать данный метод,
-        // поэтому применял пузырковую сортировку
+    protected int getIndex(String uuid) {
+        Resume searchKey = new Resume();
+        searchKey.setUuid(uuid);
+        return Arrays.binarySearch(storage, 0, size, searchKey);
+    }
+
+    @Override
+    protected void sort() {
         for (int i = 0; i < size - 1; i++) {
             if (storage[i].compareTo(storage[i + 1]) > 0) {
                 Resume tempResume = storage[i];
@@ -25,7 +25,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void save(Resume resume) {
+    protected void insert(Resume resume) {
         int left, right, mid;
         left = 0;
         right = size;
@@ -50,22 +50,10 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index <= -1) {
-            System.out.println("Resume with " + uuid + " is not present in storage");
-        } else {
-            for (int i = index; i < size; i++) {
-                storage[i] = storage[i + 1];
-            }
-            size--;
+    protected void updateIndexes(int index) {
+        for (int i = index; i < size; i++) {
+            storage[i] = storage[i + 1];
         }
-    }
-
-    @Override
-    protected int getIndex(String uuid) {
-        Resume searchKey = new Resume();
-        searchKey.setUuid(uuid);
-        return Arrays.binarySearch(storage, 0, size, searchKey);
+        size--;
     }
 }
