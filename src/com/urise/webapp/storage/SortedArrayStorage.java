@@ -13,35 +13,16 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void insertResume(Resume resume) {
-        int left, right, mid;
-        left = 0;
-        right = size;
-        //Ищем куда вставлять элемент, сравниваем с серединой отрезка,
-        //если элемент меньше, то двигаем правый край отрезка, если больше - то левый край.
-        while (left < right) {
-            mid = (left + right) / 2;
-            int result = storage[mid].compareTo(resume);
-            if (result > 0) {
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
-        }
+    protected void insertResume(Resume resume, int index) {
+        index = -(index+1);
         size++;
-        //Сдвигаем все элементы, больше вставляемого, на один вправо
-        //Move biggers elements one by one to the right
-        for (int i = size; i > left; i--) {
-            storage[i] = storage[i - 1];
-        }
-        storage[left] = resume;
+        if (size - index >= 0) System.arraycopy(storage, index, storage, index + 1, size - index);
+        storage[index] = resume;
     }
 
     @Override
     protected void removeResume(int index) {
-        for (int i = index; i < size; i++) {
-            storage[i] = storage[i + 1];
-        }
+        if (size - index >= 0) System.arraycopy(storage, index + 1, storage, index, size - index);
         size--;
     }
 }
