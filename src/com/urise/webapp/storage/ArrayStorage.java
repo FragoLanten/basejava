@@ -19,17 +19,14 @@ public class ArrayStorage extends AbstractArrayStorage {
         return -1;
     }
 
-    protected void sort() {
-    }
-
     @Override
-    protected void insert(Resume resume) {
+    protected void insertResume(Resume resume) {
         storage[size] = resume;
         size++;
     }
 
     @Override
-    protected void updateIndexes(int index) {
+    protected void removeResume(int index) {
         storage[index] = storage[size - 1];
         storage[size - 1] = null;
         size--;

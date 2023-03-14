@@ -8,24 +8,12 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected int getIndex(String uuid) {
-        Resume searchKey = new Resume();
-        searchKey.setUuid(uuid);
+        Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 
     @Override
-    protected void sort() {
-        for (int i = 0; i < size - 1; i++) {
-            if (storage[i].compareTo(storage[i + 1]) > 0) {
-                Resume tempResume = storage[i];
-                storage[i] = storage[i + 1];
-                storage[i + 1] = tempResume;
-            }
-        }
-    }
-
-    @Override
-    protected void insert(Resume resume) {
+    protected void insertResume(Resume resume) {
         int left, right, mid;
         left = 0;
         right = size;
@@ -50,7 +38,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void updateIndexes(int index) {
+    protected void removeResume(int index) {
         for (int i = index; i < size; i++) {
             storage[i] = storage[i + 1];
         }
