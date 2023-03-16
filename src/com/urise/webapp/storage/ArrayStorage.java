@@ -29,6 +29,5 @@ public class ArrayStorage extends AbstractArrayStorage {
     protected void removeResume(int index) {
         storage[index] = storage[size - 1];
         storage[size - 1] = null;
-        size--;
     }
 }
