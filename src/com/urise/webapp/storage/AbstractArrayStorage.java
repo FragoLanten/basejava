@@ -30,6 +30,7 @@ public abstract class AbstractArrayStorage implements Storage {
         } else if (index >= 0) {
             System.out.println("Resume with " + resume.getUuid() + " is already present in storage");
         } else {
+            size++;
             insertResume(resume, index);
         }
     }
@@ -50,6 +51,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Resume with " + uuid + " is not present in storage");
         } else {
             removeResume(index);
+            size--;
         }
     }
 
