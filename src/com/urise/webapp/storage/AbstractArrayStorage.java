@@ -33,8 +33,8 @@ public abstract class AbstractArrayStorage implements Storage {
         } else if (index >= 0) {
             throw new ExistStorageException(resume.getUuid());
         } else {
-            size++;
             insertResume(resume, index);
+            size++;
         }
     }
 
