@@ -13,7 +13,7 @@ public class AbstractArrayStorageTest {
 
     private final Storage storage;
 
-    public AbstractArrayStorageTest(Storage storage) {
+    protected AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -137,7 +137,7 @@ public class AbstractArrayStorageTest {
     }
 
     @Test
-    public void getNotExist() throws Exception {
+    public void getNotExist() {
         Assertions.assertThrows(NotExistStorageException.class, () -> storage.get("dummy"));
     }
 }
