@@ -7,10 +7,15 @@ import com.urise.webapp.model.Resume;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 
-class AbstractArrayStorageTest {
+public class AbstractArrayStorageTest {
 
-    private final Storage storage = new ArrayStorage();
+    private final Storage storage;
+
+    public AbstractArrayStorageTest(Storage storage) {
+        this.storage = storage;
+    }
 
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -43,7 +48,7 @@ class AbstractArrayStorageTest {
         //затем пробуем обновить резюме в массиве
         Resume resume3 = new Resume(UUID_3);
         storage.update(resume3);
-        Assertions.assertEquals(storage.get(UUID_3), resume3);
+        Assertions.assertEquals(storage.getAll()[2], resume3);
     }
 
     @Test
@@ -72,7 +77,7 @@ class AbstractArrayStorageTest {
         //последним проверяем что резюме корректно сохранилось в массиве
         Resume resume2 = new Resume(UUID_2);
         storage.save(resume2);
-        Assertions.assertEquals(storage.get(UUID_2), resume2);
+        Assertions.assertEquals(storage.getAll()[1], resume2);
     }
 
     @Test
@@ -104,14 +109,9 @@ class AbstractArrayStorageTest {
         //затем проверим, что метод корректно выполняется с существующим uuid
         Resume resume5 = new Resume("uuid5");
         storage.save(resume5);
-        storage.delete("uuid5");
-        try {
-            storage.get("uuid5");
-            Assertions.fail("NotExistStorageException not thrown");
-        } catch (NotExistStorageException e) {
-            Assertions.assertNotNull(e);
-        }
-        Assertions.assertEquals(3,storage.size());
+        storage.delete("uuid2");
+        Assertions.assertEquals(resume5, storage.getAll()[1]);
+        Assertions.assertEquals(3, storage.size());
     }
 
     @Test
@@ -137,7 +137,7 @@ class AbstractArrayStorageTest {
     }
 
     @Test
-    public void getNotExist() {
+    public void getNotExist() throws Exception {
         Assertions.assertThrows(NotExistStorageException.class, () -> storage.get("dummy"));
     }
 }
