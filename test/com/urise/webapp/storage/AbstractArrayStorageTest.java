@@ -43,7 +43,7 @@ class AbstractArrayStorageTest {
         //затем пробуем обновить резюме в массиве
         Resume resume3 = new Resume(UUID_3);
         storage.update(resume3);
-        Assertions.assertEquals(storage.get(UUID_3),resume3);
+        Assertions.assertEquals(storage.get(UUID_3), resume3);
     }
 
     @Test
@@ -77,15 +77,58 @@ class AbstractArrayStorageTest {
 
     @Test
     void get() {
-
+        //сначала проверим метод get на то, чтобы выбрасывалось Exception на несуществующий uuid
+        String uuid4 = "uuid4";
+        try {
+            storage.get(uuid4);
+            Assertions.fail("NotExistStorageException not thrown");
+        } catch (NotExistStorageException e) {
+            Assertions.assertNotNull(e);
+        }
+        //затем проверим, что метод корректно выполняется с существующим uuid
+        Resume resume5 = new Resume("uuid5");
+        storage.save(resume5);
+        Assertions.assertEquals(resume5, storage.get("uuid5"));
     }
 
     @Test
     void delete() {
+        //сначала проверим метод delete на то, чтобы выбрасывалось Exception на несуществующий uuid
+        String uuid4 = "uuid4";
+        try {
+            storage.delete(uuid4);
+            Assertions.fail("NotExistStorageException not thrown");
+        } catch (NotExistStorageException e) {
+            Assertions.assertNotNull(e);
+        }
+        //затем проверим, что метод корректно выполняется с существующим uuid
+        Resume resume5 = new Resume("uuid5");
+        storage.save(resume5);
+        storage.delete("uuid5");
+        try {
+            storage.get("uuid5");
+            Assertions.fail("NotExistStorageException not thrown");
+        } catch (NotExistStorageException e) {
+            Assertions.assertNotNull(e);
+        }
+        Assertions.assertEquals(3,storage.size());
     }
 
     @Test
     void getAll() {
+        storage.clear();
+        Resume resume1 = new Resume(UUID_1);
+        Resume resume2 = new Resume(UUID_2);
+        Resume resume3 = new Resume(UUID_3);
+        storage.save(resume1);
+        storage.save(resume2);
+        storage.save(resume3);
+
+        final Resume[] testStorage = new Resume[3];
+        testStorage[0] = resume1;
+        testStorage[1] = resume2;
+        testStorage[2] = resume3;
+        Assertions.assertArrayEquals(testStorage, storage.getAll());
     }
 
     @Test
