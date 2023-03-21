@@ -7,30 +7,34 @@ import com.urise.webapp.model.Resume;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
 
-public class AbstractArrayStorageTest {
+public abstract class AbstractArrayStorageTest {
 
-    private final Storage storage;
+    protected final Storage storage;
 
     protected AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
 
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
+    protected static final String UUID_1 = "uuid1";
+    protected static final String UUID_2 = "uuid2";
+    protected static final String UUID_3 = "uuid3";
 
     @BeforeEach
     public void setUp() {
         storage.clear();
-        storage.save(new Resume(UUID_1));
-        storage.save(new Resume(UUID_2));
-        storage.save(new Resume(UUID_3));
+        Resume resume1 = new Resume(UUID_1);
+        Resume resume2 = new Resume(UUID_2);
+        Resume resume3 = new Resume(UUID_3);
+
+        storage.save(resume1);
+        storage.save(resume2);
+        storage.save(resume3);
+
     }
 
     @Test
-    void clear() {
+    public void clear() {
         storage.clear();
         Assertions.assertEquals(0, storage.size());
     }
@@ -99,19 +103,16 @@ public class AbstractArrayStorageTest {
     @Test
     void delete() {
         //сначала проверим метод delete на то, чтобы выбрасывалось Exception на несуществующий uuid
-        String uuid4 = "uuid4";
+        String uuid6 = "uuid6";
         try {
-            storage.delete(uuid4);
+            storage.delete(uuid6);
             Assertions.fail("NotExistStorageException not thrown");
         } catch (NotExistStorageException e) {
             Assertions.assertNotNull(e);
         }
         //затем проверим, что метод корректно выполняется с существующим uuid
-        Resume resume5 = new Resume("uuid5");
-        storage.save(resume5);
-        storage.delete("uuid2");
-        Assertions.assertEquals(resume5, storage.getAll()[1]);
-        Assertions.assertEquals(3, storage.size());
+        storage.delete("uuid3");
+        Assertions.assertEquals(2, storage.size());
     }
 
     @Test
