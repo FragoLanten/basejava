@@ -17,20 +17,19 @@ public abstract class AbstractArrayStorageTest {
     }
 
     protected static final String UUID_1 = "uuid1";
+    static Resume resume1 = new Resume(UUID_1);
     protected static final String UUID_2 = "uuid2";
+    static Resume resume2 = new Resume(UUID_2);
     protected static final String UUID_3 = "uuid3";
+    static Resume resume3 = new Resume(UUID_3);
+
 
     @BeforeEach
     public void setUp() {
         storage.clear();
-        Resume resume1 = new Resume(UUID_1);
-        Resume resume2 = new Resume(UUID_2);
-        Resume resume3 = new Resume(UUID_3);
-
         storage.save(resume1);
         storage.save(resume2);
         storage.save(resume3);
-
     }
 
     @Test
@@ -117,14 +116,6 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     void getAll() {
-        storage.clear();
-        Resume resume1 = new Resume(UUID_1);
-        Resume resume2 = new Resume(UUID_2);
-        Resume resume3 = new Resume(UUID_3);
-        storage.save(resume1);
-        storage.save(resume2);
-        storage.save(resume3);
-
         final Resume[] testStorage = new Resume[3];
         testStorage[0] = resume1;
         testStorage[1] = resume2;
