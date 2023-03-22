@@ -22,6 +22,8 @@ public abstract class AbstractArrayStorageTest {
     static Resume resume2 = new Resume(UUID_2);
     protected static final String UUID_3 = "uuid3";
     static Resume resume3 = new Resume(UUID_3);
+    protected static final String UUID_4 = "uuid4";
+    static Resume resume4 = new Resume(UUID_4);
 
 
     @BeforeEach
@@ -35,7 +37,8 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void clear() {
         storage.clear();
-        Assertions.assertEquals(0, storage.size());
+        assertSize(0);
+        Assertions.assertEquals(0, storage.getAll().length);
     }
 
     @Test
@@ -51,7 +54,7 @@ public abstract class AbstractArrayStorageTest {
         //затем пробуем обновить резюме в массиве
         Resume resume3 = new Resume(UUID_3);
         storage.update(resume3);
-        Assertions.assertEquals(storage.getAll()[2], resume3);
+        Assertions.assertSame(storage.getAll()[2], resume3);
     }
 
     @Test
@@ -62,25 +65,14 @@ public abstract class AbstractArrayStorageTest {
             Resume resume = new Resume();
             storage.save(resume);
         }
-        try {
-            storage.save(new Resume());
-            Assertions.fail("StorageException not thrown");
-        } catch (StorageException e) {
-            Assertions.assertNotNull(e);
-        }
+        Assertions.assertThrows(StorageException.class, () -> storage.save(resume4));
         //затем проверяем метод на выбрасывание ExistStorageException
         storage.clear();
-        storage.save(new Resume(UUID_1));
-        try {
-            storage.save(new Resume((UUID_1)));
-            Assertions.fail("ExistStorageException not thrown");
-        } catch (ExistStorageException e) {
-            Assertions.assertNotNull(e);
-        }
+        saveExist();
         //последним проверяем что резюме корректно сохранилось в массиве
-        Resume resume2 = new Resume(UUID_2);
-        storage.save(resume2);
-        Assertions.assertEquals(storage.getAll()[1], resume2);
+        storage.save(resume4);
+        asserGet(resume4);
+        assertSize(2);
     }
 
     @Test
@@ -94,9 +86,9 @@ public abstract class AbstractArrayStorageTest {
             Assertions.assertNotNull(e);
         }
         //затем проверим, что метод корректно выполняется с существующим uuid
-        Resume resume5 = new Resume("uuid5");
-        storage.save(resume5);
-        Assertions.assertEquals(resume5, storage.get("uuid5"));
+        asserGet(resume1);
+        asserGet(resume2);
+        asserGet(resume3);
     }
 
     @Test
@@ -116,11 +108,9 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     void getAll() {
-        final Resume[] testStorage = new Resume[3];
-        testStorage[0] = resume1;
-        testStorage[1] = resume2;
-        testStorage[2] = resume3;
+        final Resume[] testStorage = new Resume[]{resume1, resume2, resume3};
         Assertions.assertArrayEquals(testStorage, storage.getAll());
+        assertSize(3);
     }
 
     @Test
@@ -131,5 +121,18 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void getNotExist() {
         Assertions.assertThrows(NotExistStorageException.class, () -> storage.get("dummy"));
+    }
+
+    public void assertSize(int size) {
+        Assertions.assertEquals(size, storage.size());
+    }
+
+    public void asserGet(Resume resume) {
+        Assertions.assertEquals(resume, storage.get(resume.getUuid()));
+    }
+
+    public void saveExist() {
+        storage.save(new Resume(UUID_1));
+        Assertions.assertThrows(ExistStorageException.class, () -> storage.save(new Resume(UUID_1)));
     }
 }
