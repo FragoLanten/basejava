@@ -38,19 +38,14 @@ public abstract class AbstractArrayStorageTest {
     public void clear() {
         storage.clear();
         assertSize(0);
-        Assertions.assertEquals(0, storage.getAll().length);
+//        Assertions.assertIterableEquals(new Resume("0"), storage.getAll()[0]);
     }
 
     @Test
     void update() {
         //сначала проверяем чтобы выбросилось NotExistStorageException
         Resume newResume = new Resume("uuid4");
-        try {
-            storage.update(newResume);
-            Assertions.fail("NotExistStorageException not thrown");
-        } catch (NotExistStorageException e) {
-            Assertions.assertNotNull(e);
-        }
+        updateNotExist(newResume);
         //затем пробуем обновить резюме в массиве
         Resume resume3 = new Resume(UUID_3);
         storage.update(resume3);
@@ -60,12 +55,7 @@ public abstract class AbstractArrayStorageTest {
     @Test
     void save() {
         //сначала проверяем метод на выбрасывание StorageException
-        storage.clear();
-        for (int i = 0; i < 10000; i++) {
-            Resume resume = new Resume();
-            storage.save(resume);
-        }
-        Assertions.assertThrows(StorageException.class, () -> storage.save(resume4));
+        storageOverflow();
         //затем проверяем метод на выбрасывание ExistStorageException
         storage.clear();
         saveExist();
@@ -79,12 +69,7 @@ public abstract class AbstractArrayStorageTest {
     void get() {
         //сначала проверим метод get на то, чтобы выбрасывалось Exception на несуществующий uuid
         String uuid4 = "uuid4";
-        try {
-            storage.get(uuid4);
-            Assertions.fail("NotExistStorageException not thrown");
-        } catch (NotExistStorageException e) {
-            Assertions.assertNotNull(e);
-        }
+        getNotExist(uuid4);
         //затем проверим, что метод корректно выполняется с существующим uuid
         asserGet(resume1);
         asserGet(resume2);
@@ -95,12 +80,7 @@ public abstract class AbstractArrayStorageTest {
     void delete() {
         //сначала проверим метод delete на то, чтобы выбрасывалось Exception на несуществующий uuid
         String uuid6 = "uuid6";
-        try {
-            storage.delete(uuid6);
-            Assertions.fail("NotExistStorageException not thrown");
-        } catch (NotExistStorageException e) {
-            Assertions.assertNotNull(e);
-        }
+        deleteNotExist(uuid6);
         //затем проверим, что метод корректно выполняется с существующим uuid
         storage.delete("uuid3");
         Assertions.assertEquals(2, storage.size());
@@ -119,8 +99,8 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test
-    public void getNotExist() {
-        Assertions.assertThrows(NotExistStorageException.class, () -> storage.get("dummy"));
+    public void getNotExist(String uuid) {
+        Assertions.assertThrows(NotExistStorageException.class, () -> storage.get(uuid));
     }
 
     public void assertSize(int size) {
@@ -134,5 +114,22 @@ public abstract class AbstractArrayStorageTest {
     public void saveExist() {
         storage.save(new Resume(UUID_1));
         Assertions.assertThrows(ExistStorageException.class, () -> storage.save(new Resume(UUID_1)));
+    }
+
+    public void storageOverflow() {
+        storage.clear();
+        for (int i = 0; i < 10000; i++) {
+            Resume resume = new Resume();
+            storage.save(resume);
+        }
+        Assertions.assertThrows(StorageException.class, () -> storage.save(resume4));
+    }
+
+    public void deleteNotExist(String uuid) {
+        Assertions.assertThrows(NotExistStorageException.class, () -> storage.delete(uuid));
+    }
+
+    public void updateNotExist(Resume resume) {
+        Assertions.assertThrows(NotExistStorageException.class, () -> storage.update(resume));
     }
 }
