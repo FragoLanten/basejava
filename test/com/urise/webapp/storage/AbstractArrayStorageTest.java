@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 public abstract class AbstractArrayStorageTest {
 
     protected final Storage storage;
@@ -38,7 +40,7 @@ public abstract class AbstractArrayStorageTest {
     public void clear() {
         storage.clear();
         assertSize(0);
-//        Assertions.assertIterableEquals(new Resume("0"), storage.getAll()[0]);
+        Assertions.assertIterableEquals(Arrays.asList(new Resume[]{}), Arrays.asList(storage.getAll()));
     }
 
     @Test
