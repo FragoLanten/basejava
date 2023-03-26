@@ -33,7 +33,6 @@ public abstract class AbstractArrayStorageTest {
         RESUME_4 = new Resume(UUID_4);
     }
 
-
     @BeforeEach
     public void setUp() {
         storage.clear();

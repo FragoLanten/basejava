@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ListStorageTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class MapStorageTest {
 
     protected static final String UUID_1 = "uuid1";
     protected static final String UUID_2 = "uuid2";
@@ -26,7 +28,7 @@ class ListStorageTest {
         RESUME_4 = new Resume(UUID_4);
     }
 
-    protected final Storage storage = new ListStorage();
+    Storage storage = new MapStorage();
 
     @BeforeEach
     void setUp() {
@@ -64,9 +66,14 @@ class ListStorageTest {
 
     @Test
     void delete() {
-        storage.delete(UUID_1);
+        storage.delete(UUID_3);
         Assertions.assertEquals(2, storage.size());
         assertSize(2);
+    }
+
+    @Test
+    void size() {
+        Assertions.assertEquals(3, storage.size());
     }
 
     @Test
@@ -89,12 +96,12 @@ class ListStorageTest {
         Assertions.assertThrows(NotExistStorageException.class, () -> storage.delete("uuid10"));
     }
 
-    public void assertSize(int size) {
-        Assertions.assertEquals(size, storage.size());
-    }
-
     void assertGet(Resume resume) {
         Assertions.assertEquals(resume, storage.get(resume.getUuid()));
+    }
+
+    void assertSize(int size) {
+        Assertions.assertEquals(size, storage.size());
     }
 
 }

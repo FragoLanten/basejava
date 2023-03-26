@@ -48,7 +48,11 @@ public class ListStorage extends AbstractStorage {
     @Override
     public void delete(String uuid) {
         int index = getIndex(uuid);
-        storage.remove(index);
+        if (index == -1) {
+            throw new NotExistStorageException(uuid);
+        } else {
+            storage.remove(index);
+        }
     }
 
     @Override
@@ -62,7 +66,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected int getIndex(String uuid) {
+    public int getIndex(String uuid) {
         for (Resume resume : storage) {
             if (resume.getUuid().equals(uuid)) {
                 return storage.indexOf(resume);
@@ -70,4 +74,5 @@ public class ListStorage extends AbstractStorage {
         }
         return -1;
     }
+
 }
