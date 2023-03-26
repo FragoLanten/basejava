@@ -10,6 +10,22 @@ import java.util.Arrays;
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
+    public void clear() {
+        Arrays.fill(storage, 0, size, null);
+        size = 0;
+    }
+
+    @Override
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
+        if (index >= 0) {
+            storage[index] = resume;
+        } else {
+            throw new NotExistStorageException(resume.getUuid());
+        }
+    }
+
+    @Override
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (size >= STORAGE_LIMIT) {
@@ -19,6 +35,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         } else {
             insertResume(resume, index);
             size++;
+        }
+    }
+
+    @Override
+    public Resume get(String uuid) {
+        int index = getIndex(uuid);
+        if (index <= -1) {
+            throw new NotExistStorageException(uuid);
+        } else {
+            return storage[index];
         }
     }
 
