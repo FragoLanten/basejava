@@ -29,6 +29,6 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public abstract int size();
 
-    protected abstract int getIndex(String uuid);
+    public abstract Object getSearchKey(String uuid);
 
 }

@@ -47,11 +47,11 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index == -1) {
+        Resume resume = (Resume) getSearchKey(uuid);
+        if (resume == null) {
             throw new NotExistStorageException(uuid);
         } else {
-            storage.remove(index);
+            storage.remove(resume);
         }
     }
 
@@ -66,13 +66,12 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public int getIndex(String uuid) {
+    public Object getSearchKey(String uuid) {
         for (Resume resume : storage) {
             if (resume.getUuid().equals(uuid)) {
-                return storage.indexOf(resume);
+                return resume;
             }
         }
-        return -1;
+        return null;
     }
-
 }

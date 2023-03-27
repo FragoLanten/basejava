@@ -64,7 +64,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected int getIndex(String uuid) {
-        return 0;
+    public Object getSearchKey(String uuid) {
+        return null;
     }
 }
