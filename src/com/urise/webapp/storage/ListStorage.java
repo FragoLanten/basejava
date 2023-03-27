@@ -17,47 +17,34 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void update(Resume resume) {
-        int index = storage.indexOf(resume);
-        if (storage.contains(resume)) {
-            storage.set(index, resume);
-        } else {
-            throw new NotExistStorageException(resume.getUuid());
-        }
+    public void doUpdate(Resume resume) {
+        storage.set(storage.indexOf(resume), resume);
     }
 
     @Override
-    public void save(Resume resume) {
-        if (storage.contains(resume)) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            storage.add(resume);
-        }
+    public void doSave(Resume resume) {
+        storage.add(resume);
     }
 
     @Override
-    public Resume get(String uuid) {
+    public Resume doGet(String uuid) {
         for (Resume resume : storage) {
             if (resume.getUuid().equals(uuid)) {
                 return resume;
             }
         }
-        throw new NotExistStorageException(uuid);
+        return null;
     }
 
     @Override
-    public void delete(String uuid) {
+    public void doDelete(String uuid) {
         Resume resume = (Resume) getSearchKey(uuid);
-        if (resume == null) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            storage.remove(resume);
-        }
+        storage.remove(resume);
     }
 
     @Override
     public Resume[] getAll() {
-        return new Resume[0];
+        return null;
     }
 
     @Override
@@ -74,4 +61,11 @@ public class ListStorage extends AbstractStorage {
         }
         return null;
     }
+
+    @Override
+    public boolean isExist(Object searchKey) {
+        Resume resume = (Resume) searchKey;
+        return storage.contains(searchKey);
+    }
+
 }

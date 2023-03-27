@@ -27,4 +27,13 @@ public class SortedArrayStorage extends AbstractArrayStorage {
             System.arraycopy(storage, index + 1, storage, index, size - index);
         }
     }
+
+    @Override
+    public Object getSearchKey(String uuid) {
+        return null;
+    }
+
+    public boolean isExist(Object searchKey) {
+        return false;
+    }
 }

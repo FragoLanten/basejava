@@ -54,6 +54,26 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
+    public void doUpdate(Resume resume) {
+
+    }
+
+    @Override
+    public void doSave(Resume resume) {
+
+    }
+
+    @Override
+    public Resume doGet(String uuid) {
+        return null;
+    }
+
+    @Override
+    public void doDelete(String uuid) {
+
+    }
+
+    @Override
     public Resume[] getAll() {
         return new Resume[0];
     }
@@ -67,4 +87,10 @@ public class MapStorage extends AbstractStorage {
     public Object getSearchKey(String uuid) {
         return null;
     }
+
+    @Override
+    public boolean isExist(Object searchKey) {
+        return false;
+    }
+
 }

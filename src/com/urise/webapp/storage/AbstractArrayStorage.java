@@ -16,7 +16,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void update(Resume resume) {
+    public void doUpdate(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index >= 0) {
             storage[index] = resume;
@@ -26,7 +26,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void save(Resume resume) {
+    public void doSave(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
@@ -39,7 +39,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume get(String uuid) {
+    public Resume doGet(String uuid) {
         int index = getIndex(uuid);
         if (index <= -1) {
             throw new NotExistStorageException(uuid);
@@ -49,7 +49,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void delete(String uuid) {
+    public void doDelete(String uuid) {
         int index = getIndex(uuid);
         if (index <= -1) {
             throw new NotExistStorageException(uuid);
@@ -74,4 +74,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected abstract void removeResume(int index);
 
     protected abstract int getIndex(String uuid);
+
+    public abstract boolean isExist(Object searchKey);
 }
