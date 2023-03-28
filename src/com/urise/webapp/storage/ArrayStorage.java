@@ -29,12 +29,4 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage[size - 1] = null;
     }
 
-    @Override
-    public Object getSearchKey(String uuid) {
-        return null;
-    }
-
-    public boolean isExist(Object searchKey) {
-        return false;
-    }
 }

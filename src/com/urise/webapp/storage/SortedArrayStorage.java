@@ -28,12 +28,4 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    @Override
-    public Object getSearchKey(String uuid) {
-        return null;
-    }
-
-    public boolean isExist(Object searchKey) {
-        return false;
-    }
 }

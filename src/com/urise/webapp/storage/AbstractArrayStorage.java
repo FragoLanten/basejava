@@ -75,5 +75,21 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract int getIndex(String uuid);
 
-    public abstract boolean isExist(Object searchKey);
+    public Object getSearchKey(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                return storage[i];
+            }
+        }
+        return null;
+    }
+
+    public boolean isExist(Object searchKey) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].equals(searchKey)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
