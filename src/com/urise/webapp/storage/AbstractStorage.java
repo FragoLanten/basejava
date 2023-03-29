@@ -19,9 +19,8 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        if (getNotExistingSearchKey(resume.getUuid()) != null) {
-            doSave(resume, searchKey);
-        }
+        searchKey = getNotExistingSearchKey(resume.getUuid());
+        doSave(resume, searchKey);
     }
 
     @Override
