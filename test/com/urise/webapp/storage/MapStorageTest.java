@@ -43,7 +43,7 @@ class MapStorageTest {
     }
 
     @Test
-    void update() {
+    void doUpdate() {
         storage.save(RESUME_4);
         RESUME_4 = new Resume(UUID_4);
         storage.update(RESUME_4);
@@ -51,19 +51,19 @@ class MapStorageTest {
     }
 
     @Test
-    void save() {
+    void doSave() {
         storage.save(RESUME_4);
         assertGet(RESUME_4);
         assertSize(4);
     }
 
     @Test
-    void get() {
+    void doGet() {
         assertGet(RESUME_1);
     }
 
     @Test
-    void delete() {
+    void doDelete() {
         storage.delete(UUID_3);
         Assertions.assertEquals(2, storage.size());
         assertSize(2);

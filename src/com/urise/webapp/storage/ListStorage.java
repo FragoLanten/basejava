@@ -1,7 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
@@ -17,47 +15,29 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void update(Resume resume) {
-        int index = storage.indexOf(resume);
-        if (storage.contains(resume)) {
-            storage.set(index, resume);
-        } else {
-            throw new NotExistStorageException(resume.getUuid());
-        }
+    public void doUpdate(Resume resume, Object searchKey) {
+        storage.set(storage.indexOf(resume), resume);
     }
 
     @Override
-    public void save(Resume resume) {
-        if (storage.contains(resume)) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            storage.add(resume);
-        }
+    public void doSave(Resume resume, Object searchKey) {
+        storage.add(resume);
     }
 
     @Override
-    public Resume get(String uuid) {
-        for (Resume resume : storage) {
-            if (resume.getUuid().equals(uuid)) {
-                return resume;
-            }
-        }
-        throw new NotExistStorageException(uuid);
+    public Resume doGet(String uuid, Object searchKey) {
+        return (Resume) getSearchKey(uuid);
     }
 
     @Override
-    public void delete(String uuid) {
+    public void doDelete(String uuid, Object searchKey) {
         Resume resume = (Resume) getSearchKey(uuid);
-        if (resume == null) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            storage.remove(resume);
-        }
+        storage.remove(resume);
     }
 
     @Override
     public Resume[] getAll() {
-        return new Resume[0];
+        return null;
     }
 
     @Override
@@ -74,4 +54,10 @@ public class ListStorage extends AbstractStorage {
         }
         return null;
     }
+
+    @Override
+    public boolean isExist(Object searchKey) {
+        return storage.contains((Resume) searchKey);
+    }
+
 }
