@@ -15,22 +15,22 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void doUpdate(Resume resume) {
+    public void doUpdate(Resume resume, Object searchKey) {
         storage.set(storage.indexOf(resume), resume);
     }
 
     @Override
-    public void doSave(Resume resume) {
+    public void doSave(Resume resume, Object searchKey) {
         storage.add(resume);
     }
 
     @Override
-    public Resume doGet(String uuid) {
+    public Resume doGet(String uuid, Object searchKey) {
         return (Resume) getSearchKey(uuid);
     }
 
     @Override
-    public void doDelete(String uuid) {
+    public void doDelete(String uuid, Object searchKey) {
         Resume resume = (Resume) getSearchKey(uuid);
         storage.remove(resume);
     }

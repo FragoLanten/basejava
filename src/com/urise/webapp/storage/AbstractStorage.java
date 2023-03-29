@@ -8,29 +8,26 @@ public abstract class AbstractStorage implements Storage {
 
     protected static final int STORAGE_LIMIT = 10000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
-    protected int size;
-
-    @Override
-    public abstract void clear();
+    protected Object searchKey;
 
     @Override
     public void update(Resume resume) {
         if (getExistingSearchKey(resume.getUuid()) != null) {
-            doUpdate(resume);
+            doUpdate(resume, searchKey);
         }
     }
 
     @Override
     public void save(Resume resume) {
         if (getNotExistingSearchKey(resume.getUuid()) != null) {
-            doSave(resume);
+            doSave(resume, searchKey);
         }
     }
 
     @Override
     public Resume get(String uuid) {
         if (getExistingSearchKey(uuid) != null) {
-            return doGet(uuid);
+            return doGet(uuid, searchKey);
         }
         return null;
     }
@@ -38,17 +35,17 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public void delete(String uuid) {
         if (getExistingSearchKey(uuid) != null) {
-            doDelete(uuid);
+            doDelete(uuid, searchKey);
         }
     }
 
-    public abstract void doUpdate(Resume resume);
+    public abstract void doUpdate(Resume resume, Object searchKey);
 
-    public abstract void doSave(Resume resume);
+    public abstract void doSave(Resume resume, Object searchKey);
 
-    public abstract Resume doGet(String uuid);
+    public abstract Resume doGet(String uuid, Object searchKey);
 
-    public abstract void doDelete(String uuid);
+    public abstract void doDelete(String uuid, Object searchKey);
 
     @Override
     public abstract Resume[] getAll();
@@ -61,18 +58,20 @@ public abstract class AbstractStorage implements Storage {
     public abstract boolean isExist(Object searchKey);
 
     public Object getExistingSearchKey(String uuid) {
-        if (isExist(getSearchKey(uuid))) {
-            return uuid;
+        searchKey = getSearchKey(uuid);
+        if (isExist(searchKey)) {
+            return searchKey;
         } else {
             throw new NotExistStorageException(uuid);
         }
     }
 
     public Object getNotExistingSearchKey(String uuid) {
-        if (isExist(getSearchKey(uuid))) {
+        searchKey = getSearchKey(uuid);
+        if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
         } else {
-            return uuid;
+            return searchKey;
         }
     }
 

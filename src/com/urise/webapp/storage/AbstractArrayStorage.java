@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
+    protected int size;
     @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -16,7 +17,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void doUpdate(Resume resume) {
+    public void doUpdate(Resume resume, Object searchKey) {
         int index = getIndex(resume.getUuid());
         if (index >= 0) {
             storage[index] = resume;
@@ -26,7 +27,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void doSave(Resume resume) {
+    public void doSave(Resume resume, Object searchKey) {
         int index = getIndex(resume.getUuid());
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
@@ -39,7 +40,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume doGet(String uuid) {
+    public Resume doGet(String uuid, Object searchKey) {
         int index = getIndex(uuid);
         if (index <= -1) {
             throw new NotExistStorageException(uuid);
@@ -49,7 +50,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void doDelete(String uuid) {
+    public void doDelete(String uuid, Object searchKey) {
         int index = getIndex(uuid);
         if (index <= -1) {
             throw new NotExistStorageException(uuid);
