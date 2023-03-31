@@ -20,6 +20,8 @@ public class MainCollections {
 
     public static void main(String[] args) {
         ListStorage listStorage = new ListStorage();
+        listStorage.save(RESUME_1);
+        listStorage.get(RESUME_1.getUuid());
 
 
 //        Collection<Resume> collection = new ArrayList<>();

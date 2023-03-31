@@ -31,7 +31,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public void doDelete(String uuid, Object searchKey) {
-        storage.remove((Resume) searchKey);
+        storage.remove((int) searchKey);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ListStorage extends AbstractStorage {
     @Override
     public boolean isExist(Object searchKey) {
         if (searchKey != null) {
-            return storage.contains(storage.get((Integer) searchKey));
+            return (int) searchKey < storage.size();
         } else {
             return false;
         }
