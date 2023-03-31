@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    List<Resume> storage = new ArrayList<>();
+    final List<Resume> storage = new ArrayList<>();
 
     @Override
     public void clear() {
@@ -26,13 +26,12 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume doGet(String uuid, Object searchKey) {
-        return (Resume) getSearchKey(uuid);
+        return (Resume) searchKey;
     }
 
     @Override
     public void doDelete(String uuid, Object searchKey) {
-        Resume resume = (Resume) getSearchKey(uuid);
-        storage.remove(resume);
+        storage.remove((Resume) searchKey);
     }
 
     @Override
