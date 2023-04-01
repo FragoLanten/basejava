@@ -74,7 +74,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void removeResume(int index);
 
-    public abstract Object getSearchKey(String uuid);
+    public abstract Integer getSearchKey(String uuid);
 
     public boolean isExist(Object searchKey) {
         int index = (int) searchKey;
