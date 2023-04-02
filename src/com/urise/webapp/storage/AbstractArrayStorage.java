@@ -18,7 +18,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     public void doUpdate(Resume resume, Object searchKey) {
-        int index = getIndex(resume.getUuid());
+        int index = (int) searchKey;
         if (index >= 0) {
             storage[index] = resume;
         } else {
@@ -28,7 +28,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     public void doSave(Resume resume, Object searchKey) {
-        int index = getIndex(resume.getUuid());
+        int index = (int) searchKey;
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
         } else if (index >= 0) {
@@ -41,7 +41,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     public Resume doGet(String uuid, Object searchKey) {
-        int index = getIndex(uuid);
+        int index = (int) searchKey;
         if (index <= -1) {
             throw new NotExistStorageException(uuid);
         } else {
@@ -51,7 +51,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     public void doDelete(String uuid, Object searchKey) {
-        int index = getIndex(uuid);
+        int index = (int) searchKey;
         if (index <= -1) {
             throw new NotExistStorageException(uuid);
         } else {
@@ -74,23 +74,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void removeResume(int index);
 
-    protected abstract int getIndex(String uuid);
-
-    public Object getSearchKey(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return storage[i];
-            }
-        }
-        return null;
-    }
+    public abstract Integer getSearchKey(String uuid);
 
     public boolean isExist(Object searchKey) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].equals(searchKey)) {
-                return true;
-            }
-        }
-        return false;
+        int index = (int) searchKey;
+        return index >= 0 && index <= size;
     }
 }
