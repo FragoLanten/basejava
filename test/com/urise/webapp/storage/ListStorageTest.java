@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class ListStorageTest {
 
     protected static final String UUID_1 = "uuid1";
@@ -53,7 +56,7 @@ class ListStorageTest {
     @Test
     void save() {
         storage.save(RESUME_4);
-//        assertGet(RESUME_4);
+        assertGet(RESUME_4);
         assertSize(4);
     }
 
@@ -87,6 +90,15 @@ class ListStorageTest {
     @Test
     public void deleteNotExist() {
         Assertions.assertThrows(NotExistStorageException.class, () -> storage.delete("uuid10"));
+    }
+
+    @Test
+    public void getAllSorted(){
+        List<Resume> testStorage = new ArrayList<>();
+        testStorage.add(RESUME_1);
+        testStorage.add(RESUME_2);
+        testStorage.add(RESUME_3);
+        Assertions.assertIterableEquals(testStorage, storage.getAllSorted());
     }
 
     public void assertSize(int size) {

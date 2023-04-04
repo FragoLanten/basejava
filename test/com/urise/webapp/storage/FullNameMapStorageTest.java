@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-class MapStorageTest {
+class FullNameStorageTest {
 
     protected static final String UUID_1 = "uuid1";
     protected static final String FULL_NAME_1 = "Vadim";
@@ -24,7 +24,7 @@ class MapStorageTest {
     private static final Resume RESUME_1;
     private static final Resume RESUME_2;
     private static final Resume RESUME_3;
-    private static Resume RESUME_4;
+    private static final Resume RESUME_4;
 
     static {
         RESUME_1 = new Resume(UUID_1, FULL_NAME_1);
@@ -33,7 +33,7 @@ class MapStorageTest {
         RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
     }
 
-    Storage storage = new MapStorage();
+    Storage storage = new FullNameMapStorage();
 
     @BeforeEach
     void setUp() {
@@ -52,7 +52,7 @@ class MapStorageTest {
     @Test
     void doUpdate() {
         storage.save(RESUME_4);
-        RESUME_4 = new Resume(UUID_4);
+        RESUME_4.setFullname("Anastasya");
         storage.update(RESUME_4);
         Assertions.assertSame(storage.get(UUID_4), RESUME_4);
     }
@@ -102,11 +102,11 @@ class MapStorageTest {
     }
 
     @Test
-    public void getAllSorted(){
+    public void getAllSorted() {
         Map<String, Resume> testMap = new HashMap<>();
-        testMap.put(UUID_1, RESUME_1);
         testMap.put(UUID_2, RESUME_2);
         testMap.put(UUID_3, RESUME_3);
+        testMap.put(UUID_1, RESUME_1);
         Assertions.assertIterableEquals(testMap.values(), storage.getAllSorted());
     }
 
@@ -117,5 +117,4 @@ class MapStorageTest {
     void assertSize(int size) {
         Assertions.assertEquals(size, storage.size());
     }
-
 }
