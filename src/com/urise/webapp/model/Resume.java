@@ -10,13 +10,32 @@ public class Resume implements Comparable<Resume> {
     // Unique identifier
     private final String uuid;
 
-    @Override
-    public String toString() {
-        return uuid;
+    private String fullname;
+
+    public Resume() {
+        this(UUID.randomUUID().toString());
     }
+
+    public Resume(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public Resume(String uuid, String fullname) {
+        this.uuid = uuid;
+        this.fullname = fullname;
+    }
+
 
     public String getUuid() {
         return uuid;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     @Override
@@ -32,16 +51,16 @@ public class Resume implements Comparable<Resume> {
         return uuid.hashCode();
     }
 
-    public Resume(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public Resume() {
-        this(UUID.randomUUID().toString());
-    }
-
     @Override
     public int compareTo(Resume o) {
         return uuid.compareTo(o.uuid);
+    }
+
+    @Override
+    public String toString() {
+        return "Resume{" +
+                "uuid='" + uuid + '\'' +
+                ", fullname='" + fullname + '\'' +
+                '}';
     }
 }

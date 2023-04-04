@@ -4,11 +4,17 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
+import java.util.Comparator;
+
 public abstract class AbstractStorage implements Storage {
 
     protected static final int STORAGE_LIMIT = 10000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected Object searchKey;
+
+    protected static final Comparator<Resume> RESUME_COMPARATOR =
+            Comparator.comparing(Resume::getFullname)
+                    .thenComparing(Resume::getUuid);
 
     @Override
     public void update(Resume resume) {
@@ -63,9 +69,6 @@ public abstract class AbstractStorage implements Storage {
     public abstract Resume doGet(String uuid, Object searchKey);
 
     public abstract void doDelete(String uuid, Object searchKey);
-
-    @Override
-    public abstract Resume[] getAll();
 
     @Override
     public abstract int size();

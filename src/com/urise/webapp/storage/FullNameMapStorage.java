@@ -4,8 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.*;
 
-public class MapStorage extends AbstractStorage {
-
+public class FullNameMapStorage extends AbstractStorage {
     final Map<String, Resume> storage = new HashMap<>();
 
     @Override
@@ -15,17 +14,22 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public void doUpdate(Resume resume, Object searchKey) {
-        storage.put((String) searchKey, resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
     public void doSave(Resume resume, Object searchKey) {
-        storage.put((String) searchKey, resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
     public Resume doGet(String uuid, Object searchKey) {
-        return storage.get((String) searchKey);
+        for (Map.Entry<String,Resume> entry : storage.entrySet()) {
+            if (entry.getValue().getFullname().equals(searchKey)&&(entry.getKey().equals(uuid))) {
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 
     @Override
@@ -48,12 +52,21 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public String getSearchKey(String uuid) {
-        return uuid;
+        for (Map.Entry<String, Resume> entry : storage.entrySet()) {
+            if (entry.getKey().equals(uuid)) {
+                return entry.getValue().getFullname();
+            }
+        }
+        return null;
     }
 
     @Override
     public boolean isExist(Object searchKey) {
-        return storage.containsKey((String) searchKey);
+        for (Map.Entry<String,Resume> entry : storage.entrySet()) {
+            if (entry.getValue().getFullname().equals(searchKey)) {
+                return true;
+            }
+        }
+        return false;
     }
-
 }
