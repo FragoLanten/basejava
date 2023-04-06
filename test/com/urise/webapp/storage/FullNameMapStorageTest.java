@@ -3,14 +3,20 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.FullNameMapStorage;
+import com.urise.webapp.storage.Storage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-class FullNameStorageTest {
+import static com.urise.webapp.storage.AbstractStorage.RESUME_COMPARATOR;
+
+class FullNameMapStorageTest {
 
     protected static final String UUID_1 = "uuid1";
     protected static final String FULL_NAME_1 = "Vadim";
@@ -107,7 +113,10 @@ class FullNameStorageTest {
         testMap.put(UUID_2, RESUME_2);
         testMap.put(UUID_3, RESUME_3);
         testMap.put(UUID_1, RESUME_1);
-        Assertions.assertIterableEquals(testMap.values(), storage.getAllSorted());
+        Collection<Resume> collection = testMap.values();
+        ArrayList<Resume> testList = new ArrayList<>(collection);
+        testList.sort(RESUME_COMPARATOR);
+        Assertions.assertIterableEquals(testList, storage.getAllSorted());
     }
 
     void assertGet(Resume resume) {

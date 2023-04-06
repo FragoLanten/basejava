@@ -7,8 +7,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.urise.webapp.storage.AbstractStorage.RESUME_COMPARATOR;
 
 class MapStorageTest {
 
@@ -107,7 +111,10 @@ class MapStorageTest {
         testMap.put(UUID_1, RESUME_1);
         testMap.put(UUID_2, RESUME_2);
         testMap.put(UUID_3, RESUME_3);
-        Assertions.assertIterableEquals(testMap.values(), storage.getAllSorted());
+        Collection<Resume> collection = testMap.values();
+        ArrayList<Resume> testList = new ArrayList<>(collection);
+        testList.sort(RESUME_COMPARATOR);
+        Assertions.assertIterableEquals(testList, storage.getAllSorted());
     }
 
     void assertGet(Resume resume) {
