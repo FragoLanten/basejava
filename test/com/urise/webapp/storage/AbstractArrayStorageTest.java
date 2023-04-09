@@ -45,19 +45,19 @@ public abstract class AbstractArrayStorageTest {
         storage.save(RESUME_3);
     }
 
-//    @Test
-//    public void clear() {
-//        storage.clear();
-//        assertSize(0);
-//        Assertions.assertArrayEquals(new Resume[0], storage.getAllSorted());
-//    }
-//
-//    @Test
-//    void update() {
-//        Resume resume3 = new Resume(UUID_3);
-//        storage.update(resume3);
-//        Assertions.assertSame(storage.getAllSorted()[2], resume3);
-//    }
+    @Test
+    public void clear() {
+        storage.clear();
+        assertSize(0);
+        Assertions.assertIterableEquals(List.of(), storage.getAllSorted());
+    }
+
+    @Test
+    void update() {
+        Resume resume3 = new Resume(UUID_3);
+        storage.update(resume3);
+        Assertions.assertEquals(storage.getAllSorted().get(2), resume3);
+    }
 
     @Test
     void save() {
