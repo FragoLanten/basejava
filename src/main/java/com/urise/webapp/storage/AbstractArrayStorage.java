@@ -64,7 +64,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return new ArrayList<>(Arrays.asList(storage).subList(0, size));
+        ArrayList<Resume> resultList = new ArrayList<>(Arrays.asList(storage).subList(0, size));
+        resultList.sort(AbstractStorage.RESUME_COMPARATOR);
+        return resultList;
     }
 
     @Override
