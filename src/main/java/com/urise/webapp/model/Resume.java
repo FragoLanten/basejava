@@ -8,7 +8,7 @@ import java.util.UUID;
 public class Resume implements Comparable<Resume> {
 
     // Unique identifier
-    private final String uuid;
+    private String uuid;
 
     private String fullname;
 
@@ -17,9 +17,17 @@ public class Resume implements Comparable<Resume> {
         this.fullname = fullname;
     }
 
+    public Resume(String uuid, String fullname) {
+        this.uuid = uuid;
+        this.fullname = fullname;
+    }
 
     public String getUuid() {
         return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getFullname() {

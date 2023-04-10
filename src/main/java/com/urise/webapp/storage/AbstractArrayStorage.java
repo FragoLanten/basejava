@@ -11,6 +11,8 @@ import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
+    protected Resume[] storage = new Resume[STORAGE_LIMIT];
+
     protected int size;
     @Override
     public void clear() {
@@ -63,7 +65,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
+    public List<Resume> doCopyAll() {
         return new ArrayList<>(Arrays.asList(storage).subList(0, size));
     }
 

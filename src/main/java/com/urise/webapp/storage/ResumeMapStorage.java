@@ -4,7 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.*;
 
-public class FullNameMapStorage extends AbstractStorage {
+public class ResumeMapStorage extends AbstractStorage {
     final Map<String, Resume> storage = new HashMap<>();
 
     @Override
@@ -24,8 +24,8 @@ public class FullNameMapStorage extends AbstractStorage {
 
     @Override
     public Resume doGet(String uuid, Object searchKey) {
-        for (Map.Entry<String,Resume> entry : storage.entrySet()) {
-            if (entry.getValue().getFullname().equals(searchKey)&&(entry.getKey().equals(uuid))) {
+        for (Map.Entry<String, Resume> entry : storage.entrySet()) {
+            if (entry.getValue().equals(searchKey) && entry.getKey().equals(uuid)) {
                 return entry.getValue();
             }
         }
@@ -38,11 +38,9 @@ public class FullNameMapStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted(){
+    public List<Resume> doCopyAll() {
         Collection<Resume> collection = storage.values();
-        ArrayList<Resume> finalList = new ArrayList<>(collection);
-        finalList.sort(RESUME_COMPARATOR);
-        return finalList;
+        return new ArrayList<>(collection);
     }
 
     @Override
@@ -51,10 +49,10 @@ public class FullNameMapStorage extends AbstractStorage {
     }
 
     @Override
-    public String getSearchKey(String uuid) {
+    public Resume getSearchKey(String uuid) {
         for (Map.Entry<String, Resume> entry : storage.entrySet()) {
             if (entry.getKey().equals(uuid)) {
-                return entry.getValue().getFullname();
+                return entry.getValue();
             }
         }
         return null;
@@ -62,8 +60,8 @@ public class FullNameMapStorage extends AbstractStorage {
 
     @Override
     public boolean isExist(Object searchKey) {
-        for (Map.Entry<String,Resume> entry : storage.entrySet()) {
-            if (entry.getValue().getFullname().equals(searchKey)) {
+        for (Map.Entry<String, Resume> entry : storage.entrySet()) {
+            if (entry.getValue().equals(searchKey)) {
                 return true;
             }
         }
