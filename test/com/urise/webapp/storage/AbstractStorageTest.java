@@ -22,17 +22,10 @@ public abstract class AbstractStorageTest {
     protected static final String FULLNAME_3 = "Natalya";
     protected static final String FULLNAME_4 = "John";
 
-    protected static final Resume RESUME_1;
-    protected static final Resume RESUME_2;
-    protected static final Resume RESUME_3;
-    protected static final Resume RESUME_4;
-
-    static {
-        RESUME_1 = new Resume(FULLNAME_1);
-        RESUME_2 = new Resume(FULLNAME_2);
-        RESUME_3 = new Resume(FULLNAME_3);
-        RESUME_4 = new Resume(FULLNAME_4);
-    }
+    protected static final Resume RESUME_1 = new Resume(FULLNAME_1);
+    protected static final Resume RESUME_2 = new Resume(FULLNAME_2);
+    protected static final Resume RESUME_3 = new Resume(FULLNAME_3);
+    protected static final Resume RESUME_4 = new Resume(FULLNAME_4);
 
     @BeforeEach
     public void setUp() {
