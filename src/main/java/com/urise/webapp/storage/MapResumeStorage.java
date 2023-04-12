@@ -4,7 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.*;
 
-public class ResumeMapStorage extends AbstractStorage {
+public class MapResumeStorage extends AbstractStorage {
     final Map<String, Resume> storage = new HashMap<>();
 
     @Override
@@ -24,12 +24,7 @@ public class ResumeMapStorage extends AbstractStorage {
 
     @Override
     public Resume doGet(String uuid, Object searchKey) {
-        for (Map.Entry<String, Resume> entry : storage.entrySet()) {
-            if (entry.getValue().equals(searchKey) && entry.getKey().equals(uuid)) {
-                return entry.getValue();
-            }
-        }
-        return null;
+        return (Resume) searchKey;
     }
 
     @Override
@@ -50,12 +45,7 @@ public class ResumeMapStorage extends AbstractStorage {
 
     @Override
     public Resume getSearchKey(String uuid) {
-        for (Map.Entry<String, Resume> entry : storage.entrySet()) {
-            if (entry.getKey().equals(uuid)) {
-                return entry.getValue();
-            }
-        }
-        return null;
+        return storage.get(uuid);
     }
 
     @Override
