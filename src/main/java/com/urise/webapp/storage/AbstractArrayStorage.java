@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
 
@@ -21,8 +21,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void doUpdate(Resume resume, Object searchKey) {
-        int index = (int) searchKey;
+    public void doUpdate(Resume resume, Integer searchKey) {
+        int index = searchKey;
         if (index >= 0) {
             storage[index] = resume;
         } else {
@@ -31,8 +31,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void doSave(Resume resume, Object searchKey) {
-        int index = (int) searchKey;
+    public void doSave(Resume resume, Integer searchKey) {
+        int index = searchKey;
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
         } else if (index >= 0) {
@@ -44,8 +44,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume doGet(String uuid, Object searchKey) {
-        int index = (int) searchKey;
+    public Resume doGet(String uuid, Integer searchKey) {
+        int index = searchKey;
         if (index <= -1) {
             throw new NotExistStorageException(uuid);
         } else {
@@ -54,8 +54,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void doDelete(String uuid, Object searchKey) {
-        int index = (int) searchKey;
+    public void doDelete(String uuid, Integer searchKey) {
+        int index = searchKey;
         if (index <= -1) {
             throw new NotExistStorageException(uuid);
         } else {
@@ -80,8 +80,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     public abstract Integer getSearchKey(String uuid);
 
-    public boolean isExist(Object searchKey) {
-        int index = (int) searchKey;
+    public boolean isExist(Integer searchKey) {
+        int index = searchKey;
         return index >= 0 && index <= size;
     }
 }

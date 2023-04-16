@@ -9,7 +9,7 @@ import org.junit.platform.suite.api.Suite;
 @SelectClasses({
         ArrayStorageTest.class,
         SortedArrayStorageTest.class,
-        ResumeMapStorageTest.class,
+        MapResumeStorageTest.class,
         MapStorageTest.class,
         ListStorageTest.class
 })
