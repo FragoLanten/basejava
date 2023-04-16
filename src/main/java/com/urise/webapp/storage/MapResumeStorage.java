@@ -4,7 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.*;
 
-public class ResumeMapStorage extends AbstractStorage<Resume> {
+public class MapResumeStorage extends AbstractStorage {
     final Map<String, Resume> storage = new HashMap<>();
 
     @Override
@@ -13,27 +13,22 @@ public class ResumeMapStorage extends AbstractStorage<Resume> {
     }
 
     @Override
-    public void doUpdate(Resume resume, Resume searchKey) {
+    public void doUpdate(Resume resume, Object searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    public void doSave(Resume resume, Resume searchKey) {
+    public void doSave(Resume resume, Object searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    public Resume doGet(String uuid, Resume searchKey) {
-        for (Map.Entry<String, Resume> entry : storage.entrySet()) {
-            if (entry.getValue().equals(searchKey) && entry.getKey().equals(uuid)) {
-                return entry.getValue();
-            }
-        }
-        return null;
+    public Resume doGet(String uuid, Object searchKey) {
+        return (Resume) searchKey;
     }
 
     @Override
-    public void doDelete(String uuid, Resume searchKey) {
+    public void doDelete(String uuid, Object searchKey) {
         storage.remove(uuid);
     }
 
@@ -50,16 +45,11 @@ public class ResumeMapStorage extends AbstractStorage<Resume> {
 
     @Override
     public Resume getSearchKey(String uuid) {
-        for (Map.Entry<String, Resume> entry : storage.entrySet()) {
-            if (entry.getKey().equals(uuid)) {
-                return entry.getValue();
-            }
-        }
-        return null;
+        return storage.get(uuid);
     }
 
     @Override
-    public boolean isExist(Resume searchKey) {
+    public boolean isExist(Object searchKey) {
         for (Map.Entry<String, Resume> entry : storage.entrySet()) {
             if (entry.getValue().equals(searchKey)) {
                 return true;
