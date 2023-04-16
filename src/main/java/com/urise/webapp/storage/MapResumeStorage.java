@@ -50,11 +50,6 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     public boolean isExist(Object searchKey) {
-        for (Map.Entry<String, Resume> entry : storage.entrySet()) {
-            if (entry.getValue().equals(searchKey)) {
-                return true;
-            }
-        }
-        return false;
+        return searchKey != null;
     }
 }
