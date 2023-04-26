@@ -4,10 +4,14 @@ import java.util.Objects;
 
 public class TextSection extends AbstractSection {
 
-    private String description;
+    private final String description;
 
     public String getDescription() {
         return description;
+    }
+
+    public TextSection(String description) {
+        this.description = description;
     }
 
     @Override
