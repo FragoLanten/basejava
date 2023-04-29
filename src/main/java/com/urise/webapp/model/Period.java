@@ -5,13 +5,20 @@ import java.util.Objects;
 
 public class Period {
 
-    private LocalDate start;
+    private final LocalDate start;
 
-    private LocalDate end;
+    private final LocalDate end;
 
-    private String title;
+    private final String title;
 
-    private String description;
+    private final String description;
+
+    public Period(LocalDate start, LocalDate end, String title, String description) {
+        this.start = start;
+        this.end = end;
+        this.title = title;
+        this.description = description;
+    }
 
     public LocalDate getStart() {
         return start;
@@ -28,6 +35,7 @@ public class Period {
     public String getDescription() {
         return description;
     }
+
 
     @Override
     public boolean equals(Object o) {

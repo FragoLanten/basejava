@@ -11,6 +11,10 @@ public class ListSection extends AbstractSection{
         return listDescription;
     }
 
+    public ListSection(List<String> listDescription) {
+        this.listDescription = listDescription;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

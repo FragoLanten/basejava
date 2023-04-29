@@ -4,11 +4,17 @@ import java.util.List;
 import java.util.Objects;
 
 public class CompanySection extends AbstractSection{
-    private List<Period> periods;
+    private final List<Period> periods;
 
-    private String name;
+    private final String name;
 
-    private String website;
+    private final String website;
+
+    public CompanySection(List<Period> periods, String name, String website) {
+        this.periods = periods;
+        this.name = name;
+        this.website = website;
+    }
 
     public List<Period> getPeriods() {
         return periods;
