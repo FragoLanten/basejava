@@ -12,9 +12,9 @@ public class ResumeTestData {
     public static void main(String[] args) {
         Resume testResume = new Resume("Rizin Vadim");
 
-        Map<String, String> contacts = new HashMap<>();
-        contacts.put("Телефон", "8-800-500-31-02");
-        contacts.put("Электронная почта", "rizinvadim@gmail.com");
+        Map<ContactType, String> contacts = new HashMap<>();
+        contacts.put(ContactType.TELEPHONE, "8-800-500-31-02");
+        contacts.put(ContactType.EMAIL, "rizinvadim@gmail.com");
         testResume.setContacts(contacts);
 
         Map<SectionType, AbstractSection> sections = new HashMap<>();
@@ -52,7 +52,7 @@ public class ResumeTestData {
         AbstractSection studySection = new CompanySection(listOfStudyPeriods, "МАТИ РГТУ", "https://mai.ru/");
         sections.put(SectionType.EDUCATION, studySection);
 
-        for (Map.Entry<String, String> entry : contacts.entrySet()) {
+        for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
             System.out.println(entry.getKey() + " " + entry.getValue());
         }
 
