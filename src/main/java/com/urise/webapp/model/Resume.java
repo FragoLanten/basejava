@@ -16,7 +16,7 @@ public class Resume implements Comparable<Resume> {
 
     private AbstractSection abstractSection;
 
-    private Map<String, String> contacts;
+    private Map<ContactType, String> contacts;
 
     private Map<SectionType, AbstractSection> sections;
 
@@ -54,11 +54,11 @@ public class Resume implements Comparable<Resume> {
         this.abstractSection = abstractSection;
     }
 
-    public Map<String, String> getContacts() {
+    public Map<ContactType, String> getContacts() {
         return contacts;
     }
 
-    public void setContacts(Map<String, String> contacts) {
+    public void setContacts(Map<ContactType, String> contacts) {
         this.contacts = contacts;
     }
 
