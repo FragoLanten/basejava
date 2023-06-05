@@ -3,16 +3,16 @@ package com.urise.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class ListSection extends AbstractSection{
+public class ListSection extends Section {
 
-    private List<String> listDescription;
+    private List<String> items;
 
-    public List<String> getListDescription() {
-        return listDescription;
+    public List<String> getItems() {
+        return items;
     }
 
-    public ListSection(List<String> listDescription) {
-        this.listDescription = listDescription;
+    public ListSection(List<String> items) {
+        this.items = items;
     }
 
     @Override
@@ -20,18 +20,18 @@ public class ListSection extends AbstractSection{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListSection that = (ListSection) o;
-        return listDescription.equals(that.listDescription);
+        return items.equals(that.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(listDescription);
+        return Objects.hash(items);
     }
 
     @Override
     public String toString() {
         return "ListSection{" +
-                "listDescription=" + listDescription +
+                "listDescription=" + items +
                 '}';
     }
 }

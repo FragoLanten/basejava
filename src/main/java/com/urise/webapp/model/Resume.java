@@ -1,7 +1,7 @@
 package com.urise.webapp.model;
 
+import java.util.EnumMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -14,11 +14,10 @@ public class Resume implements Comparable<Resume> {
 
     private String fullname;
 
-    private AbstractSection abstractSection;
+    private Section abstractSection;
 
-    private Map<ContactType, String> contacts;
-
-    private Map<SectionType, AbstractSection> sections;
+    private Map<ContactType, String> contacts = new EnumMap<ContactType, String>(ContactType.class);
+    private Map<SectionType, Section> sections = new EnumMap<SectionType, Section>(SectionType.class);
 
     public Resume(String fullname) {
         this.uuid = UUID.randomUUID().toString();
@@ -46,11 +45,11 @@ public class Resume implements Comparable<Resume> {
         this.fullname = fullname;
     }
 
-    public AbstractSection getAbstractSection() {
+    public Section getAbstractSection() {
         return abstractSection;
     }
 
-    public void setAbstractSection(AbstractSection abstractSection) {
+    public void setAbstractSection(Section abstractSection) {
         this.abstractSection = abstractSection;
     }
 
@@ -62,12 +61,20 @@ public class Resume implements Comparable<Resume> {
         this.contacts = contacts;
     }
 
-    public Map<SectionType, AbstractSection> getSections() {
+    public Map<SectionType, Section> getSections() {
         return sections;
     }
 
-    public void setSections(Map<SectionType, AbstractSection> sections) {
+    public void setSections(Map<SectionType, Section> sections) {
         this.sections = sections;
+    }
+
+    public String getContact(ContactType type) {
+        return contacts.get(type);
+    }
+
+    public Section getSection(SectionType type) {
+        return sections.get(type);
     }
 
     @Override
