@@ -40,17 +40,21 @@ public class ResumeTestData {
         Section qualificationSection = new ListSection(qualificationList);
         sections.put(SectionType.QUALIFICATIONS, qualificationSection);
 
-        HashMap<LocalDate, LocalDate> period1 = new HashMap<>();
-        period1.put(LocalDate.of(2023, 2, 10),LocalDate.now());
-        Organization topJava = new Organization("Top Java", "top-java.ru", period1, "Программиcт Стажер", "Создание базы резюме");
+        ArrayList<Period> periodsOfStudy = new ArrayList<>();
+        Period periodOfStudy1 = new Period(LocalDate.of(2023, 2, 10),LocalDate.now(),
+                "Программиcт Стажер", "Создание базы резюме");
+        periodsOfStudy.add(periodOfStudy1);
+        Organization topJava = new Organization("Top Java", "top-java.ru", periodsOfStudy);
         List<Organization> listOfWorkPeriods = new ArrayList<>();
         listOfWorkPeriods.add(topJava);
         Section experienceSection = new OrganizationSection(listOfWorkPeriods);
         sections.put(SectionType.EXPERIENCE, experienceSection);
 
-        HashMap<LocalDate, LocalDate> period2 = new HashMap<>();
-        period2.put(LocalDate.of(2007, 9, 1), LocalDate.of(2012, 6, 30));
-        Organization mati = new Organization("Мати РГТУ", "mati-rgtu.ru", period2,"Экономист Бухгалтер", "дневное обучение");
+        ArrayList<Period> periodsOfWork = new ArrayList<>();
+        Period periodOfWork1 = new Period(LocalDate.of(2007, 9, 1), LocalDate.of(2012, 6, 30),
+                "Экономист Бухгалтер", "дневное обучение");
+        periodsOfWork.add(periodOfWork1);
+        Organization mati = new Organization("Мати РГТУ", "mati-rgtu.ru", periodsOfWork);
         List<Organization> listOfStudyPeriods = new ArrayList<>();
         listOfStudyPeriods.add(mati);
         Section studySection = new OrganizationSection(listOfStudyPeriods);

@@ -31,30 +31,26 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        try (Stream<Path> stream = Files.walk(Paths.get(String.valueOf(directory)))) {
-            stream.filter(Files::isRegularFile)
-                    .forEach(path -> {
-                        try {
-                            Files.delete(path);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        File[] fileList = directory.listFiles();
+        Objects.requireNonNull(fileList, "fileList must not be null");
+        for (File file : fileList) {
+            if (file == null) {
+                throw new StorageException("file is null", "no Uuid");
+            } else {
+                doDelete(file.getName(), file);
+            }
         }
     }
 
     @Override
     public int size() {
-        long count = 0;
-        try (Stream<Path> stream = Files.walk(Paths.get(String.valueOf(directory)))) {
-            count = stream.filter(Files::isRegularFile)
-                    .count();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        int count = 0;
+        File[] fileList = directory.listFiles();
+        Objects.requireNonNull(fileList, "fileList must not be null");
+        for (File file : fileList) {
+            count++;
         }
-        return (int) count;
+        return count;
     }
 
     @Override
@@ -96,32 +92,24 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void doDelete(String uuid, File file) {
-        String[] list = file.list();
-        Objects.requireNonNull(list, "file must not be null");
-        boolean fileContainsUuid = Arrays.asList(list).contains(uuid);
-        if (fileContainsUuid) {
-            try {
-                Files.delete(Paths.get(uuid));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        boolean canDelete;
+        canDelete = file.delete();
+        if (!canDelete) {
+            throw new StorageException("File cannot be deleted", file.getName());
         }
     }
 
     @Override
     public List<Resume> doCopyAll() {
         ArrayList<Resume> resumeList = new ArrayList<>();
-        try (Stream<Path> stream = Files.walk(Paths.get(String.valueOf(directory)))) {
-            stream.filter(Files::isRegularFile)
-                    .forEach(file -> {
-                        try {
-                            resumeList.add(doRead(String.valueOf(file),directory));
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        File[] fileList = directory.listFiles();
+        Objects.requireNonNull(fileList, "fileList must not be null");
+        for (File file : fileList) {
+            if (file == null) {
+                throw new StorageException("file is null", "no Uuid");
+            } else {
+                resumeList.add(doGet(file.getName(), file));
+            }
         }
         return resumeList;
     }
@@ -130,6 +118,5 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     public boolean isExist(File file) {
         return file.exists();
     }
-
 
 }
