@@ -1,16 +1,13 @@
 package com.urise.webapp.model;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class Organization {
 
     private final Link homePage;
-    private final ArrayList<Period> periods;
+    private final List<Period> periods;
 
-    public Organization(String name, String url, ArrayList<Period> period) {
+    public Organization(String name, String url, List<Period> period) {
         this.homePage = new Link(name, url);
         this.periods = period;
     }

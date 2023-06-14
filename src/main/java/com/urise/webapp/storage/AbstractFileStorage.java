@@ -5,15 +5,9 @@ import com.urise.webapp.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
     private final File directory;
@@ -32,25 +26,21 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     public void clear() {
         File[] fileList = directory.listFiles();
-        Objects.requireNonNull(fileList, "fileList must not be null");
+        if (fileList == null) {
+            throw new StorageException("no files in directory", "null");
+        }
         for (File file : fileList) {
-            if (file == null) {
-                throw new StorageException("file is null", "no Uuid");
-            } else {
-                doDelete(file.getName(), file);
-            }
+            doDelete(file.getName(), file);
         }
     }
 
     @Override
     public int size() {
-        int count = 0;
         File[] fileList = directory.listFiles();
-        Objects.requireNonNull(fileList, "fileList must not be null");
-        for (File file : fileList) {
-            count++;
+        if (fileList == null) {
+            throw new StorageException("no files in directory", "null");
         }
-        return count;
+        return fileList.length;
     }
 
     @Override
@@ -77,10 +67,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
     }
 
-    protected abstract void doWrite(Resume r, File file) throws IOException;
-
-    protected abstract Resume doRead(String string, File file) throws IOException;
-
     @Override
     public Resume doGet(String uuid, File file) {
         try {
@@ -103,13 +89,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     public List<Resume> doCopyAll() {
         ArrayList<Resume> resumeList = new ArrayList<>();
         File[] fileList = directory.listFiles();
-        Objects.requireNonNull(fileList, "fileList must not be null");
+        if (fileList == null) {
+            throw new StorageException("no files in directory", "null");
+        }
         for (File file : fileList) {
-            if (file == null) {
-                throw new StorageException("file is null", "no Uuid");
-            } else {
-                resumeList.add(doGet(file.getName(), file));
-            }
+            resumeList.add(doGet(file.getName(), file));
         }
         return resumeList;
     }
@@ -118,5 +102,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     public boolean isExist(File file) {
         return file.exists();
     }
+
+    protected abstract void doWrite(Resume r, File file) throws IOException;
+
+    protected abstract Resume doRead(String string, File file) throws IOException;
 
 }
